@@ -46,11 +46,10 @@ end
 
 beautiful.init(CONFIG_PATH .. '/themes/erich/theme.lua')
 
-terminal = 'xterm'
-editor = os.getenv('EDITOR') or 'nano'
-editor_cmd = terminal .. ' -e ' .. editor
-
 modkey = 'Mod4'
+terminal = 'alacritty'
+editor = os.getenv('EDITOR') or 'nvim'
+editor_cmd = terminal .. ' -e ' .. editor
 
 awful.layout.layouts = {
   awful.layout.suit.floating,
