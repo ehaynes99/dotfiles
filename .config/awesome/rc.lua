@@ -45,6 +45,7 @@ do
 end
 
 beautiful.init(CONFIG_PATH .. '/themes/erich/theme.lua')
+beautiful.useless_gap = 4
 
 modkey = 'Mod4'
 terminal = 'alacritty'
