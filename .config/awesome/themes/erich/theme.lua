@@ -7,7 +7,6 @@ local xresources = require('beautiful.xresources')
 local dpi = xresources.apply_dpi
 
 local theme_path = string.format('%s/.config/awesome/themes/erich', os.getenv('HOME'))
-
 local theme = {}
 
 theme.font = 'sans 8'
@@ -26,7 +25,7 @@ theme.fg_minimize = '#ffffff'
 theme.useless_gap = dpi(0)
 theme.border_width = dpi(1)
 theme.border_normal = '#000000'
-theme.border_focus = '#535d6c'
+theme.border_focus = '#DCA561'
 theme.border_marked = '#91231c'
 
 -- There are other variable sets
