@@ -1,5 +1,7 @@
 /*
 !/.dotfiles.gitignore
+!/.dircolors
+
 !/.config
 /.config/*
 
