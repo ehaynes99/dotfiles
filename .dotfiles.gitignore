@@ -1,0 +1,9 @@
+/*
+!/.dotfiles.gitignore
+!/.config
+/.config/*
+
+!/.config/alacritty/
+!/.config/rofi/
+!/.config/volumeicon/
+
