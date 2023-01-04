@@ -1,11 +1,14 @@
 /*
 !/.dotfiles.gitignore
+!/.bashrc
+!/.bash_profile
 !/.dircolors
 
 !/.config
 /.config/*
 
 !/.config/alacritty/
+!/.config/bash/
 !/.config/rofi/
 !/.config/volumeicon/
 
