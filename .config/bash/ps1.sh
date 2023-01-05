@@ -9,6 +9,10 @@ case `hostname 2> /dev/null || uname -n | sed -e 's/\..*//'g` in
     export PS1_USER_COLOR='5;11'
     export PS1_MACHINE_NAME_COLOR='5;172'
     ;;
+  eh-thinkpad)
+    export PS1_USER_COLOR='5;30'
+    export PS1_MACHINE_NAME_COLOR='5;93'
+    ;;
   eh-win)
     export PS1_USER_COLOR='5;2'
     export PS1_MACHINE_NAME_COLOR='5;2'
