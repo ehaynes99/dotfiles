@@ -32,3 +32,4 @@ for f in $BASH_CONFIG_DIR/lang/*; do
 done
 
 safe_source "$BASH_CONFIG_DIR/local-overrides.sh"
+safe_source "$BASH_CONFIG_DIR/secrets.sh"
