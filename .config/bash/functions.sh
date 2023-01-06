@@ -5,3 +5,9 @@ safe_source() {
 pacman_executables_of() {
   pacman -Qlq $* | perl -nle 'use Term::ANSIColor; print colored($&, 'bright_red') if m{(?<=bin/).+}'
 }
+
+fcd() {
+  [[ -n "$1" ]] && path="$1" || path="."
+  result=$(fd -td ".*" "$path" | fzf)
+  [[ -n "$result" ]] && cd $result
+}
