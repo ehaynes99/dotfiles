@@ -9,6 +9,7 @@
 
 !/.config/alacritty/
 !/.config/bash/
+!/.config/bat/
 !/.config/gitui/
 !/.config/rofi/
 !/.config/volumeicon/
