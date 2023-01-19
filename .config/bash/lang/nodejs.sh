@@ -2,7 +2,8 @@
 safe_source /usr/share/nvm/init-nvm.sh
 safe_source /usr/share/nvm/bash_completion
 
-alias ncu='npx -y npm-check-updates'
+alias ncu='npx -y npm-check-updates -x @types/node'
+alias ncun='npx -y npm-check-updates -f @types/node -t minor'
 alias esr='npx -y esbuild-runner'
 alias ts-node='npx -y ts-node'
 alias nest='npx -y -p @nestjs/cli nest'
