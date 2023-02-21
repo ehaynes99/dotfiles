@@ -45,9 +45,9 @@ window:
   #
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
-  padding:
-    x: 5
-    y: 5
+  # padding:
+  #   x: 2
+  #   y: 2
 
   # Spread additional padding evenly around the terminal content.
   dynamic_padding: true
@@ -753,8 +753,9 @@ font:
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
 key_bindings:
-  - { key: N,   mods: Control|Shift, action: SpawnNewInstance }
-  - { key: L,   mods: Control|Shift, action: ClearHistory }
+  - { key: N,          mods: Control|Shift,              action: SpawnNewInstance }
+  - { key: L,          mods: Control|Shift,              action: ClearHistory   }
+  - { key: NumpadEnter,                                  chars: "\x0d"          }
   #- { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
   #- { key: L,         mods: Control,                    action: ClearLogNotice }
