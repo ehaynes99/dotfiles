@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+path="$1"
+
+[[ -n "$path" ]] || path='.'
+# Account for `/` argument, since trailing `/` will be stripped
+[[ "$path" == '/' ]] && path='//'
+
+du -hsc "${path%/}"/* | sort -h 
