@@ -27,6 +27,7 @@ for f in "$BASH_CONFIG_DIR"/lang/*; do
 	safe_source "$f"
 done
 
+safe_source addons/git-completion.bash
 safe_source ps1.sh
 safe_source aliases.sh
 safe_source dotfiles.sh
