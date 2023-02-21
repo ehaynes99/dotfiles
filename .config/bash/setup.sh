@@ -1,5 +1,7 @@
 [[ $- != *i* ]] && return
 
+BASH_CONFIG_DIR="$HOME/.config/bash"
+
 HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "
 HISTCONTROL=ignoreboth
 HISTSIZE=1000
@@ -17,7 +19,7 @@ shopt -s checkwinsize
 # Enable '**' in glob
 shopt -s globstar
 
-source "${HOME}/.config/bash/functions/safe_source.sh"
+source "$BASH_CONFIG_DIR/functions/safe_source.sh"
 
 for f in "$BASH_CONFIG_DIR"/functions/*; do
 	safe_source "$f"
@@ -33,6 +35,7 @@ safe_source aliases.sh
 safe_source dotfiles.sh
 
 pre_path "$HOME/scripts"
+pre_path "$BASH_CONFIG_DIR/scripts"
 
 safe_source local-overrides.sh
 safe_source secrets.sh
