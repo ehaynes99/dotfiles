@@ -10,8 +10,7 @@ alias ts-node='npx -y ts-node'
 alias nest='npx -y -p @nestjs/cli nest'
 
 cd() {
-  builtin cd "$@" || exit
-  [[ -f .nvmrc ]] && nvm use
+	builtin cd "$@" && [[ -f .nvmrc ]] && nvm use
 }
 
 cd .
