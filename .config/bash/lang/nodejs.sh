@@ -2,7 +2,7 @@
 safe_source /usr/share/nvm/init-nvm.sh
 safe_source /usr/share/nvm/bash_completion
 
-alias ncu='npx -y npm-check-updates -x @types/node'
+alias ncu='npx -y npm-check-updates -x "typescript @types/node"'
 alias ncun='npx -y npm-check-updates -f @types/node -t minor'
 alias ncup='ncu -u && ncun -u && npm i'
 alias esr='npx -y esbuild-runner'
