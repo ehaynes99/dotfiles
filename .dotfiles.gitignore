@@ -13,6 +13,7 @@
 !/.config/bash/
 !/.config/bat/
 !/.config/gitui/
+!/.config/ripgrep/
 !/.config/rofi/
 !/.config/volumeicon/
 
