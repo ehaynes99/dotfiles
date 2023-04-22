@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if [[ "$1" == "-d" ]]; then
+  cat - | openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 1000000 -salt -d
+else
+  cat - | openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 1000000 -salt
+fi
