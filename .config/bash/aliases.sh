@@ -6,3 +6,4 @@ alias which='alias | which -i'
 # Cliboard
 alias clip='xclip -r -sel clip'
 alias v='open_nvim'
+alias k='kubectl'
