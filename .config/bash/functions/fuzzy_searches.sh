@@ -29,10 +29,11 @@ vp() {
 		'/home/erich/workspace/openphone/projects'
 		'/home/erich/workspace/tmp'
 		'/home/erich/workspace/monorepo'
-		'/home/erich/all-workspaces/external'
+    '/home/erich/all-workspaces/external'
+		'/home/erich/workspace/backend/backend'
 	)
-	project=$(fd -d1 -td . "${dirs[@]}" |
-		fzf --exact --preview='bat {}package.json')
+
+	project=$(fd -d1 -td . "${dirs[@]}" | fzf --preview='bat {}package.json' --query "$*")
   project="${project/#~/$HOME}"
 
 	if [ "$project" != "" ]; then
