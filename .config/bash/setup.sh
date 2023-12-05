@@ -37,6 +37,7 @@ safe_source aliases.sh
 safe_source dotfiles.sh
 
 pre_path "$HOME/scripts"
+pre_path "$HOME/bin"
 pre_path "$BASH_CONFIG_DIR/scripts"
 
 safe_source local-overrides.sh
