@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+branches=$(git reflog | \
+  grep -Eio "moving from ([^[:space:]]+)" | \
+  awk '{ print $3 }' | \
+  awk ' !x[$0]++' | \
+  grep -Ev '^[a-f0-9]{40}$' | \
+  head -n20)
+
+default=$(git get-default)
+
+branch=$(echo "$branches" | fzf \
+  --preview="git cherry -v $default {} | awk '{\$2=\"\"; print \$0}'" \
+  --preview-label="git cherry -v $default" \
+  --preview-window='45%,border-sharp' \
+  --border=sharp \
+  # --height=~80%
+)
+
+  # --preview="git log --graph --oneline --decorate --boundary origin/master...{}" \
+  #
+  # --color="bg+:-1,fg:grey,fg+:white,border:black,spinner:0,hl:yellow,header:blue,info:green,pointer:red,marker:blue,prompt:gray,hl+:red" \
+
+if [[ -n "$branch" ]]; then
+  git co "$branch"
+else
+  echo "$branches" | tac
+fi
