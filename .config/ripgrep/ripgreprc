@@ -2,6 +2,7 @@
 --max-columns-preview
 
 --smart-case
+--no-heading
 
 # EXAMPLE OPTIONS BELOW
 # Add my 'web' type.
