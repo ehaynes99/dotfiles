@@ -38,6 +38,7 @@ vp() {
 
 	if [ "$project" != "" ]; then
 		cd "$(dirname "$project")" || return
-		open_nvim "$(basename "$project")"
+    history -s v "$(basename "$project")"
+    open_nvim "$(basename "$project")"
 	fi
 }
