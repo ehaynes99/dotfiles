@@ -7,11 +7,14 @@ recent_branches=$(git reflog | \
   grep -Ev '^[a-f0-9]{40}$' | \
   head -n20)
 
+existing=$(git branch -l | awk 'NF{ print $NF }')
+
 default=$(git get-default)
 
+# TODO - union of unsorted lists seems extraordinarily difficult in bash
 branches=$(node -e "
 const recentBranches = \`${recent_branches}\`.split('\n')
-const existing = \`$(git branch -l)\`.split('\n').map((str) => str.replace(/.* /, ''))
+const existing = \`${existing}\`.split('\n')
 
 recentBranches.forEach((branch) => {
   if (existing.includes(branch)) {
