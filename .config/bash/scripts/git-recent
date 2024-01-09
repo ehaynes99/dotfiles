@@ -14,6 +14,9 @@ branch=$(echo "$branches" | fzf \
   --preview-label="git cherry -v $default" \
   --preview-window='45%,border-sharp' \
   --border=sharp \
+  --bind='tab:up' \
+  --bind='shift-tab:down' \
+  --bind='ctrl-q:abort' \
   # --height=~80%
 )
 
