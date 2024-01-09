@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-branches=$(git reflog | \
+recent_branches=$(git reflog | \
   grep -Eio "moving from ([^[:space:]]+)" | \
   awk '{ print $3 }' | \
   awk ' !x[$0]++' | \
@@ -8,6 +8,17 @@ branches=$(git reflog | \
   head -n20)
 
 default=$(git get-default)
+
+branches=$(node -e "
+const recentBranches = \`${recent_branches}\`.split('\n')
+const existing = \`$(git branch -l)\`.split('\n').map((str) => str.replace(/.* /, ''))
+
+recentBranches.forEach((branch) => {
+  if (existing.includes(branch)) {
+    console.log(branch)
+  }
+})
+")
 
 branch=$(echo "$branches" | fzf \
   --preview="git cherry -v $default {} | awk '{\$2=\"\"; print \$0}'" \
@@ -17,15 +28,11 @@ branch=$(echo "$branches" | fzf \
   --bind='tab:up' \
   --bind='shift-tab:down' \
   --bind='ctrl-q:abort' \
-  # --height=~80%
 )
-
-  # --preview="git log --graph --oneline --decorate --boundary origin/master...{}" \
-  #
-  # --color="bg+:-1,fg:grey,fg+:white,border:black,spinner:0,hl:yellow,header:blue,info:green,pointer:red,marker:blue,prompt:gray,hl+:red" \
 
 if [[ -n "$branch" ]]; then
   git co "$branch"
 else
+  echo ""
   echo "$branches" | tac
 fi
