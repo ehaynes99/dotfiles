@@ -1,0 +1,23 @@
+[font]
+size = 10.0
+
+[font.normal]
+family = "RobotoMono Nerd Font"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "N"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+action = "ClearHistory"
+key = "L"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+chars = "\r"
+key = "NumpadEnter"
+
+[window]
+decorations = "None"
+dynamic_padding = true
