@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+function confirm {
+  echo "$@"
+  while true; do
+    read -rp "[y/n]: " yn
+    case $yn in
+      [Yy]*) return 0  ;;
+      [Nn]*) return 1 ;;
+    esac
+  done
+}
+
+confirm "$@"

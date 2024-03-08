@@ -39,6 +39,11 @@ safe_source dotfiles.sh
 pre_path "$HOME/scripts"
 pre_path "$HOME/bin"
 pre_path "$BASH_CONFIG_DIR/scripts"
+for FILE in "$BASH_CONFIG_DIR"/scripts/*; do
+	if [ -d "$FILE" ]; then
+		pre_path "$FILE"
+	fi
+done
 
 safe_source local-overrides.sh
 safe_source secrets.sh
