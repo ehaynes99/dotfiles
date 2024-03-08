@@ -33,7 +33,13 @@ vp() {
 		'/home/erich/workspace/backend/backend'
 	)
 
-	project=$(fd -d1 -td . "${dirs[@]}" | fzf --preview='bat {}package.json' --query "$*")
+	project=$(fd -d1 -td . "${dirs[@]}" | fzf \
+		--preview='bat {}package.json' \
+		--bind='tab:up' \
+		--bind='shift-tab:down' \
+		--bind='ctrl-q:abort' \
+		--query "$*" \
+	)
   project="${project/#~/$HOME}"
 
 	if [ "$project" != "" ]; then
