@@ -12,6 +12,7 @@
 !/.config/alacritty/
 !/.config/bash/
 !/.config/bat/
+!/.config/copyq/
 !/.config/gitui/
 !/.config/ripgrep/
 !/.config/rofi/
