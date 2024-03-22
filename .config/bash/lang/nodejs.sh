@@ -19,3 +19,4 @@ alias clean-js-artifacts=''
 alias asyncapi='npx -y -p @asyncapi/cli asyncapi'
 # alias npm='echo "USE pnpm!!!! To override this alias, use \npm"'
 
+alias npm-search='npm --searchlimit=100 search'
