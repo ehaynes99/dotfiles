@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 DATABASE_PATH="$HOME/workspace/openphone/backend2/dev/database"
-CONTACT_PATH="$HOME/workspace/openphone/projects/contact"
+CONTACT_PATH="$HOME/workspace/openphone/backend2/dev/contact-database"
 
 psql -h localhost -U postgres -c "
   DROP DATABASE IF EXISTS openphone;
@@ -11,14 +11,14 @@ psql -h localhost -U postgres -c "
   DROP DATABASE IF EXISTS openphone_contact;
 "
 
-psql -h localhost -U postgres -c "
-  DROP ROLE IF EXISTS openphone;
-"
-
-psql -h localhost -U postgres -c "
-  CREATE ROLE openphone
-  WITH LOGIN ENCRYPTED PASSWORD 'docker';
-"
+# psql -h localhost -U postgres -c "
+#   DROP ROLE IF EXISTS openphone;
+# "
+#
+# psql -h localhost -U postgres -c "
+#   CREATE ROLE openphone
+#   WITH LOGIN ENCRYPTED PASSWORD 'docker';
+# "
 
 psql -h localhost -U postgres -c "
   CREATE DATABASE openphone
@@ -43,7 +43,7 @@ psql -h localhost -U postgres -d openphone_contact -c "
 "
 
 cd "$DATABASE_PATH" || return
-npm run db:up
+npm run db:upgrade
 
 cd "$CONTACT_PATH" || return
-npm run db:up
+npm run db:upgrade
