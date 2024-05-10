@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd "$HOME/workspace/openphone/backend2/dev/start" || exit
+cd "$HOME/workspace/openphone/backend/dev/start" || exit
 
 ARGS=()
 
