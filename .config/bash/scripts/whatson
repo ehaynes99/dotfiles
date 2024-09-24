@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+sudo netstat -tunlp | grep "$1"
+# lsof -n -i4TCP:"$1" | grep LISTEN
