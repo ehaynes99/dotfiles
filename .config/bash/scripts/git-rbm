@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+default=$(git get-default)
+git co "$default" && git up && git co - && git rebase "$default"
