@@ -19,8 +19,12 @@ alias tsx='npx -y tsx'
 alias p='pnpm'
 alias tsc-analyze='npx -y -p @typescript/analyze-trace analyze-trace'
 
-alias pnpm8='npx -y -p pnpm@8.5.1'
+alias auth0='npx -y -p auth0-deploy-cli a0deploy'
+
+alias pnpm8='npx -y -p pnpm@8.5.1 pnpm'
 alias coverage='brave coverage/lcov-report/index.html &'
 # alias npm='echo "USE pnpm!!!! To override this alias, use \npm"'
 
 alias npm-search='npm --searchlimit=100 search'
+
+alias openapi-generator-cli='npx -y -p @openapitools/openapi-generator-cli openapi-generator-cli'
