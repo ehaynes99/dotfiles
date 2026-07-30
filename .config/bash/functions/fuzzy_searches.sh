@@ -6,7 +6,10 @@ fcd() {
 }
 
 fzp() {
-	fd | fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'
+	fd | fzf \
+		--preview '[[ -d {} ]] && ls -1 {} || bat --color=always --style=numbers --line-range=:500 {}' \
+		--bind='tab:up' \
+		--bind='shift-tab:down'
 }
 
 function pr-checkout() {
@@ -26,15 +29,15 @@ function pr-checkout() {
 
 vp() {
 	local dirs=(
-		'/home/erich/workspace/openphone/projects'
+		'/home/erich/workspace/quo/projects'
 		'/home/erich/workspace/tmp'
 		'/home/erich/workspace/monorepo'
     '/home/erich/all-workspaces/external'
 		'/home/erich/workspace/backend/backend'
 	)
 
-	project=$(fd -d1 -td . "${dirs[@]}" | fzf \
-		--preview='bat {}package.json' \
+	project=$(fd '^(package-lock.json|pnpm-lock.yaml)$' ~/workspace ~/all-workspaces -x echo {//}/package.json | fzf \
+		--preview='bat --color=always {}' \
 		--bind='tab:up' \
 		--bind='shift-tab:down' \
 		--bind='ctrl-q:abort' \
@@ -48,3 +51,28 @@ vp() {
     open_nvim "$(basename "$project")"
 	fi
 }
+
+# vp() {
+# 	local dirs=(
+# 		'/home/erich/workspace/quo/projects'
+# 		'/home/erich/workspace/tmp'
+# 		'/home/erich/workspace/monorepo'
+#     '/home/erich/all-workspaces/external'
+# 		'/home/erich/workspace/backend/backend'
+# 	)
+#
+# 	project=$(fd -d1 -td . "${dirs[@]}" | fzf \
+# 		--preview='bat {}package.json' \
+# 		--bind='tab:up' \
+# 		--bind='shift-tab:down' \
+# 		--bind='ctrl-q:abort' \
+# 		--query "$*" \
+# 	)
+#   project="${project/#~/$HOME}"
+#
+# 	if [ "$project" != "" ]; then
+# 		cd "$(dirname "$project")" || return
+#     history -s v "$(basename "$project")"
+#     open_nvim "$(basename "$project")"
+# 	fi
+# }

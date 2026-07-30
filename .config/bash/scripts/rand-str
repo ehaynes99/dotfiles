@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Return random alpha-numeric string of given LENGTH
+#
+# Usage: VALUE=$(rand-str $LENGTH)
+#    or: VALUE=$(rand-str)
+
+LENGTH=32
+
+LC_ALL=C tr -dc A-Za-z0-9 </dev/urandom | head -c $LENGTH
+# LC_ALL=C: required for Mac OS X - https://unix.stackexchange.com/a/363194/403075
+# -dc: delete complementary set == delete all except given set

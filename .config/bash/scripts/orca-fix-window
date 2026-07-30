@@ -1,0 +1,17 @@
+#!/bin/bash
+# Orca IDE sometimes creates its main window but never calls show()/map on it,
+# leaving it invisible even though it renders fine once forced onto screen.
+# Poll briefly for that window and force it visible.
+for i in $(seq 1 40); do
+  w=$(xdotool search --class '^orca$' 2>/dev/null | tail -1)
+  if [ -n "$w" ]; then
+    state=$(xprop -id "$w" WM_STATE 2>/dev/null)
+    if ! grep -q "window state: Normal" <<<"$state"; then
+      xdotool windowmap "$w"
+      xdotool windowactivate "$w"
+      xdotool windowraise "$w"
+    fi
+    exit 0
+  fi
+  sleep 0.25
+done

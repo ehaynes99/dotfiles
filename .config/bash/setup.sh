@@ -9,12 +9,13 @@ HISTFILESIZE=2000
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 export LESS='-R'
-export BROWSER="firefox"
+export BROWSER="brave"
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/ripgreprc"
 export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!.git"'
 # fixes httpie ssl
 export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+export EARLYOOM_ARGS="-m 5,2 -s 10,5 --prefer '(^|/)(java|node)'"
 
 # eval "$(dircolors ${HOME}/.dircolors/dircolors.256dark-erich)"
 
@@ -41,6 +42,8 @@ safe_source dotfiles.sh
 
 pre_path "$HOME/scripts"
 pre_path "$HOME/bin"
+pre_path "$HOME/.local/bin"
+pre_path "$HOME/.local/share/pnpm"
 pre_path "$BASH_CONFIG_DIR/scripts"
 for FILE in "$BASH_CONFIG_DIR"/scripts/*; do
 	if [ -d "$FILE" ]; then

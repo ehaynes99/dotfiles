@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ ! -e "./.git/refs/remotes/origin/HEAD" ]; then
-	echo 'missing HEAD'
+	echo 'missing HEAD' >&2
 	git remote set-head origin --auto
 fi
 

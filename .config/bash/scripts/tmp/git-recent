@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+recent_branches=$(git reflog |
+	grep -Eio "moving from ([^[:space:]]+)" |
+	awk '{ print $3 }' |
+	awk ' !x[$0]++' |
+	grep -Ev '^[a-f0-9]{40}$' |
+	head -n20)
+
+existing=$(git branch -l | awk 'NF{ print $NF }')
+
+default=$(git get-default)
+
+# TODO - union of unsorted lists seems extraordinarily difficult in bash
+branches=$(node -e "
+const recentBranches = \`${recent_branches}\`.split('\n')
+const existing = \`${existing}\`.split('\n')
+
+recentBranches.forEach((branch) => {
+  if (existing.includes(branch)) {
+    console.log(branch)
+  }
+})
+")
+
+branch=$(
+	echo "$branches" | fzf \
+		--preview="git cherry -v $default {} | awk '{\$2=\"\"; print \$0}'" \
+		--preview-label="git cherry -v $default" \
+		--preview-window='45%,border-sharp' \
+		--border=sharp \
+		--bind='tab:up' \
+		--bind='shift-tab:down' \
+		--bind='ctrl-q:abort'
+)
+
+if [[ -n "$branch" ]]; then
+	git co "$branch"
+else
+	echo ""
+	echo "$branches" | tac
+fi

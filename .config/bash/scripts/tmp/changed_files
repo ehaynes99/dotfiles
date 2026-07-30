@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Lists pnpm workspace packages that have changes on the current branch or uncommitted.
+set -euo pipefail
+
+BASE_BRANCH="${1:-master}"
+
+# Get all changed files: branch changes + local (staged & unstaged)
+changed_files=$(
+  git diff --name-only "${BASE_BRANCH}...HEAD" 2>/dev/null
+  git diff --name-only HEAD 2>/dev/null
+)
+# BASE_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+#
+# # Get all changed files: branch changes + local (staged & unstaged)
+# changed_files=$(git diff "$(git merge-base "$BASE_BRANCH" HEAD)" --name-only)
+
+echo "changed_files: ${changed_files}"
+
+# Deduplicate files, then map each to its nearest package.json
+echo "$changed_files" | sort -u | while IFS= read -r file; do
+  [ -z "$file" ] && continue
+  dir=$(dirname "$file")
+  while [ "$dir" != "." ]; do
+    if [ -f "$dir/package.json" ]; then
+      jq -r '.name' "$dir/package.json" 2>/dev/null
+      break
+    fi
+    dir=$(dirname "$dir")
+  done
+done | sort -u

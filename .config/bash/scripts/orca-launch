@@ -1,0 +1,6 @@
+#!/bin/bash
+# Wrapper for launching Orca IDE from a desktop launcher (drun etc).
+# Starts the app and a watcher that force-shows its window if Orca
+# fails to map it itself.
+/opt/Orca/orca-ide "$@" &
+/home/erich/.config/bash/scripts/orca-fix-window &

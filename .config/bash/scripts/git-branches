@@ -7,28 +7,28 @@ if [ ! -e "./.git/refs/remotes/origin/HEAD" ]; then
 	git remote set-head origin --auto
 fi
 
-gone=$(git branch --v | grep "\[gone\]" | sed -E 's/^  ([^ ]+).*/\1/g')
-
 default=$(git get-default)
 
-if [[ -z "$gone" ]]; then
-	echo 'No deleted branches exist.'
-else
-	to_delete=$(
-		echo "$gone" | awk '{print $0}' | fzf \
-			--multi \
-			--preview="git cherry -v $default {} | awk '{\$2=\"\"; print \$0}'" \
-			--preview-label="git cherry -v $default" \
-			--preview-window='45%,border-sharp' \
-			--bind='ctrl-a:select-all' \
-			--bind='ctrl-x:deselect-all' \
-			--header '
-CTRL-A to select all | CTRL-x to deselect all'
-	)
+branches=$(git for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads/)
 
-	if [[ -n "$to_delete" ]]; then
-    echo "$to_delete" | while read -r branch; do
-    git branch -D "$(echo "$branch" | awk '{print $1}')"
-    done
-	fi
+branch=$(
+	echo "$branches" | fzf \
+		--preview="git cherry -v $default {} | awk '{\$2=\"\"; print \$0}'" \
+		--preview-label="git cherry -v $default" \
+		--preview-window='45%,border-sharp' \
+		--border=sharp \
+		--bind='tab:up' \
+		--bind='shift-tab:down' \
+		--bind='ctrl-q:abort'
+)
+
+if [[ -z "$branch" ]]; then
+	exit
 fi
+
+if [[ -n "$(git status --porcelain)" ]]; then
+	echo "uncommitted changes, aborting"
+	exit 1
+fi
+
+git co "$branch"
