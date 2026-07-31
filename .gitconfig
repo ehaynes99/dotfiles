@@ -1,0 +1,34 @@
+[alias]
+  co = checkout
+  st = status
+  ca = commit --amend --no-edit
+  fa = fetch --all --prune
+  pf = push --force-with-lease
+  pu = push -u origin HEAD
+  pop = reset HEAD^
+  wip = commit -m\"WIP\" --no-verify
+  rc = rebase --continue
+  ra = rebase --abort
+  up = !git fetch --all --prune && git pull -r
+  get-remote = config --get remote.origin.url
+  lga = log --color=always --oneline --format='%C(yellow)%h%C(reset) %C(green)%ad%C(reset) %C(blue)%an%C(reset) %s' --date=format:'%Y-%m-%d %H:%M'
+  lg = log --color=always --oneline --format='%C(yellow)%h%C(reset) %C(green)%ad%C(reset) %C(blue)%an%C(reset) %s' --date=format:'%Y-%m-%d %H:%M' --author='^(?!.*openphonebot).*$' --perl-regexp
+  lgme = !git log --color=always --oneline --format='%C(yellow)%h%C(reset) %C(green)%ad%C(reset) %C(blue)%an%C(reset) %s' --date=format:'%Y-%m-%d %H:%M' --author=\"$(git config user.email)\"                                                      
+  deleted = "!f() { git log --diff-filter=D --name-only --pretty=format: -- \"${1:-.}\" | sort -u | while read -r file; do [ -n \"$file\" ] && printf '%s — %s\\n' \"$(basename \"$file\")\" \"$(git log --format=%h -- \"$file\" | sed -n '2p')\"; done; }; f"
+[user]
+  name = Eric Haynes
+  email = eric.haynes@openphone.co
+[includeIf "gitdir:~/workspace/ehaynes99"]
+  email = ehaynes99@gmail.com
+[init]
+  defaultBranch = master
+[core]
+	excludesFile = ~/.global-gitignore
+[credential "https://github.com"]
+  helper = 
+  helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+  helper = 
+  helper = !/usr/bin/gh auth git-credential
+[pull]
+  rebase = true
