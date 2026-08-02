@@ -15,7 +15,9 @@
 !/.config/bat/
 !/.config/copyq/
 !/.config/gitui/
+!/.config/niri/
 !/.config/ripgrep/
 !/.config/rofi/
 !/.config/volumeicon/
 
+.claude/
