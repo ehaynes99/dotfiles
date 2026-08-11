@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+scripts=(
+	install-pacman-packages
+  install-nodenv
+)
+
+for script in "${scripts[@]}"; do
+	"$SCRIPT_DIR/$script"
+done

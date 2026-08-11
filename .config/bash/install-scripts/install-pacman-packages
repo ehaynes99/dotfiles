@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+packages=(
+	acpilight
+	alacritty
+	archlinux-keyring
+	autoconf
+	automake
+	base
+	bash-completion
+	bat
+	bat-extras
+	blueman
+	brave-bin
+	btop
+	cloc
+	cmake
+	consolas-font
+	copyq
+	csvlens
+	discord
+	docker
+	docker-buildx
+	docker-compose
+	dua-cli
+	earlyoom
+	expac
+	fd
+	feh
+	ffmpegthumbs
+	firefox
+	flameshot
+	font-manager
+	fzf
+	gcc
+	git
+	github-cli
+	gitui
+	glibc
+	gpicview
+	hwinfo
+	jq
+	neovim
+	neovim-remote
+	nerd-fonts-complete
+	net-tools
+	network-manager-applet
+	networkmanager
+	noto-fonts-emoji
+	pasystray
+	pdfarranger
+	reflector
+	ripgrep
+	rsync
+	slack-desktop
+	tealdeer
+	terminus-font
+	thunar
+	thunar-volman
+	unzip
+	wget
+	wgetpaste
+	wl-clipboard
+)
+
+if ! command -v paru &>/dev/null; then
+	sudo pacman -S --needed --noconfirm base-devel rustup
+	rustup default stable
+
+	tmpdir="$(mktemp -d)"
+	git clone https://aur.archlinux.org/paru.git "$tmpdir/paru"
+	(cd "$tmpdir/paru" && makepkg -si --noconfirm)
+	rm -rf "$tmpdir"
+fi
+
+paru -S --needed "${packages[@]}"
