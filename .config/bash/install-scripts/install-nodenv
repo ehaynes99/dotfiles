@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if ! command -v paru &>/dev/null; then
+if ! command -v nodenv &>/dev/null; then
   NODENV_ROOT="$HOME/.nodenv"
   git clone https://github.com/nodenv/nodenv.git "$NODENV_ROOT"
   git clone https://github.com/nodenv/node-build.git "$NODENV_ROOT/plugins/node-build"
