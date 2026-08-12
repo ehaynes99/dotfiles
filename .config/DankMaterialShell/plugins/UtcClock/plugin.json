@@ -1,0 +1,12 @@
+{
+    "id": "utcClock",
+    "name": "UTC Clock",
+    "description": "Clock showing 12-hour local time with 24-hour local/UTC time in parentheses, followed by the date; opens the dash overview like the built-in clock",
+    "version": "1.0.0",
+    "author": "erich",
+    "type": "widget",
+    "capabilities": ["dankbar-widget"],
+    "component": "./UtcClockWidget.qml",
+    "icon": "schedule",
+    "requires_dms": ">=1.5.0"
+}
