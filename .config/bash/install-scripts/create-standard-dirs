@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+touch ~/.config/bash/local-overrides.sh
+touch ~/.config/bash/secrets.sh
+
+mkdir -p ~/tmp
+
+mkdir -p ~/workspace/ehaynes99
+mkdir -p ~/all_workspaces/archive
+mkdir -p ~/all_workspaces/external
