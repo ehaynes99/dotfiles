@@ -22,5 +22,6 @@
 !/.config/ripgrep/
 !/.config/rofi/
 !/.config/volumeicon/
+!/.config/xdg-desktop-portal/
 
 .claude/
