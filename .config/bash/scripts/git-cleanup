@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Finds all branches that have been merged or deleted from remote
+
 git rev-parse || exit
 
 if [ ! -e "./.git/refs/remotes/origin/HEAD" ]; then

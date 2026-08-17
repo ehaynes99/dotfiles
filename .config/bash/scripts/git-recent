@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# List recent branches and switch to selected one, else print to console.
+
 recent_branches=$(git reflog |
 	grep -Eio "moving from ([^[:space:]]+)" |
 	awk '{ print $3 }' |
@@ -11,7 +13,7 @@ existing=$(git branch -l | awk 'NF{ print $NF }')
 
 default=$(git get-default)
 
-# TODO - union of unsorted lists seems extraordinarily difficult in bash
+# union of unsorted lists is annoying to implement in bash
 branches=$(node -e "
 const recentBranches = \`${recent_branches}\`.split('\n')
 const existing = \`${existing}\`.split('\n')

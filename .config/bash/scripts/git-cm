@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
+# Show commits in branch
+
 git cherry -v "$(git get-default)"

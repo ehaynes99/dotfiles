@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Rebase with default
+
 if ! git diff --quiet || ! git diff --cached --quiet; then
 	echo "Error: You have uncommitted changes. Please commit or stash them first."
 	exit 1

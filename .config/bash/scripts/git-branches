@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# List all branches with fzf and switch to selected
+
 git rev-parse || exit
 
 if [ ! -e "./.git/refs/remotes/origin/HEAD" ]; then
