@@ -17,6 +17,9 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!.git"'
 export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 export EARLYOOM_ARGS="-m 5,2 -s 10,5 --prefer '(^|/)(java|node)'"
 
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+ssh-add -l &>/dev/null || ssh-add ~/.ssh/id_ed25519
+
 # eval "$(dircolors ${HOME}/.dircolors/dircolors.256dark-erich)"
 
 # Fix observed windows size if console is resized

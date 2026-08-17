@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+systemctl --user enable --now ssh-agent
+
+sudo systemctl enable --now reflector
