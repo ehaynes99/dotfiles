@@ -12,13 +12,16 @@
 !/.config
 /.config/*
 
+!/.config/DankMaterialShell/
+# dms-shell one-shot marker files (empty, touched to record "seen")
+/.config/DankMaterialShell/.changelog-*
+/.config/DankMaterialShell/.firstlaunch
 !/.config/alacritty/
 !/.config/bash/
 !/.config/bat/
 !/.config/copyq/
 !/.config/gitui/
 !/.config/niri/
-!/.config/DankMaterialShell/
 !/.config/ripgrep/
 !/.config/rofi/
 !/.config/volumeicon/
