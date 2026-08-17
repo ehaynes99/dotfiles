@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 
+# makes nvim 
+
 if [[ -d "$1" ]]; then
   cd "$1" || exit 1
   nvim
+elif [[ -f "$1" ]]; then
+  cd $(dirname "$1") || exit 1
+  nvim $(basename "$1")
 else
   nvim "$@"
 fi
