@@ -30,5 +30,3 @@ alias coverage='brave coverage/lcov-report/index.html &'
 alias npm-search='npm --searchlimit=100 search'
 alias openapi-generator-cli='npx -y -p @openapitools/openapi-generator-cli openapi-generator-cli'
 alias piai='npx -y -p @earendil-works/pi-coding-agent pi'
-
-alias quo='pnpm -C ~/workspace/quo/backend exec quo'
