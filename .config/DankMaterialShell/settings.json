@@ -508,7 +508,16 @@
   "notificationHistorySaveLow": true,
   "notificationHistorySaveNormal": true,
   "notificationHistorySaveCritical": true,
-  "notificationRules": [],
+  "notificationRules": [
+    {
+      "enabled": true,
+      "field": "appName",
+      "pattern": "Slack",
+      "matchType": "contains",
+      "action": "ignore",
+      "urgency": "default"
+    }
+  ],
   "notificationFocusedMonitor": false,
   "osdAlwaysShowValue": false,
   "osdPosition": 5,
