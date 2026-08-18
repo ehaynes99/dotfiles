@@ -262,6 +262,13 @@ window-rule {
     match app-id=r#"com.danklinux.dms$"#
     open-floating true
 }
+// flameshot opens fullscreen by default, which silently overrides
+// open-floating unless open-fullscreen is also disabled (niri#2831)
+window-rule {
+    match app-id=r#"^flameshot$"#
+    open-floating true
+    open-fullscreen false
+}
 debug {
     honor-xdg-activation-with-invalid-serial
 }

@@ -584,7 +584,7 @@
         },
         {
           "id": "systemTray",
-          "enabled": false
+          "enabled": true
         },
         "clipboard",
         "cpuUsage",
