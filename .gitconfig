@@ -17,9 +17,9 @@
   deleted = "!f() { git log --diff-filter=D --name-only --pretty=format: -- \"${1:-.}\" | sort -u | while read -r file; do [ -n \"$file\" ] && printf '%s — %s\\n' \"$(basename \"$file\")\" \"$(git log --format=%h -- \"$file\" | sed -n '2p')\"; done; }; f"
 [user]
   name = Eric Haynes
-  email = eric.haynes@openphone.co
-[includeIf "gitdir:~/workspace/ehaynes99"]
   email = ehaynes99@gmail.com
+[includeIf "gitdir:~/workspace/conexiom/"]
+  path = ~/.gitconfig-conexiom
 [init]
   defaultBranch = master
 [core]
