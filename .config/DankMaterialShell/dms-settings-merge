@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Regenerates ~/.config/DankMaterialShell/settings.json from the tracked
+# settings-common.json plus this host's <hostname>-settings.json override
+# (if one exists). Runs as ExecStartPre for dms.service, so DMS always
+# starts with this host's overrides (theme, etc.) applied on top of
+# whatever's shared. See the reconcile-dms-settings skill for splitting
+# live settings.json edits back into these two tracked files.
+set -euo pipefail
+
+dir="$HOME/.config/DankMaterialShell"
+common="$dir/settings-common.json"
+override="$dir/$(cat /etc/hostname)-settings.json"
+out="$dir/settings.json"
+
+if [[ -f "$override" ]]; then
+	jq -s '.[0] * .[1]' "$common" "$override" >"$out"
+else
+	cp "$common" "$out"
+fi

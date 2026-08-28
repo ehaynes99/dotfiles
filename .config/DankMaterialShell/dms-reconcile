@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+# Reconciles live changes in settings.json back into settings-common.json
+# (shared across machines) or <hostname>-settings.json (this machine only).
+# Interactively asks which bucket any newly-changed key belongs in, except
+# currentThemeName/currentThemeCategory which are always host-local.
+# See dms-settings-merge, which does the reverse at DMS launch.
+set -euo pipefail
+
+dir="$HOME/.config/DankMaterialShell"
+host="$(cat /etc/hostname)"
+common="$dir/settings-common.json"
+override="$dir/$host-settings.json"
+live="$dir/settings.json"
+
+# always host-local, never asked about
+auto_local=(currentThemeName currentThemeCategory)
+
+if [[ ! -f "$live" ]]; then
+	echo "no live settings.json yet, nothing to reconcile" >&2
+	exit 0
+fi
+[[ -f "$override" ]] || echo '{}' >"$override"
+
+baseline=$(jq -s '.[0] * .[1]' "$common" "$override")
+live_content=$(cat "$live")
+
+# top-level keys whose value differs between baseline and live (deep compare)
+keys=$(jq -r -n --argjson a "$baseline" --argjson b "$live_content" '
+	(($a | keys_unsorted) + ($b | keys_unsorted) | unique) as $ks
+	| $ks[] | select(($a[.] // null) != ($b[.] // null))')
+
+if [[ -z "$keys" ]]; then
+	echo "settings.json already matches settings-common.json + $host-settings.json, nothing to reconcile"
+	exit 0
+fi
+
+while IFS= read -r key <&3; do
+	[[ -z "$key" ]] && continue
+	new_value=$(jq -c --arg k "$key" '.[$k]' <<<"$live_content")
+
+	is_auto=0
+	for k in "${auto_local[@]}"; do
+		[[ "$key" == "$k" ]] && is_auto=1
+	done
+
+	if [[ $is_auto -eq 1 ]]; then
+		target=override
+	else
+		old_value=$(jq -c --arg k "$key" '.[$k] // "(unset)"' <<<"$baseline")
+		echo
+		echo "== $key =="
+		echo "  was: $old_value"
+		echo "  now: $new_value"
+		target=""
+		while [[ -z "$target" ]]; do
+			if ! read -rp "Shared across machines, or local to $host? [s/l] " ans; then
+				echo
+				echo "no input, aborting" >&2
+				exit 1
+			fi
+			case "$ans" in
+			s | S) target=common ;;
+			l | L) target=override ;;
+			*) echo "please answer s or l" ;;
+			esac
+		done
+	fi
+
+	if [[ "$target" == common ]]; then
+		jq --arg k "$key" --argjson v "$new_value" '.[$k] = $v' "$common" >"$common.tmp" && mv "$common.tmp" "$common"
+		echo "  -> settings-common.json"
+	else
+		jq --arg k "$key" --argjson v "$new_value" '.[$k] = $v' "$override" >"$override.tmp" && mv "$override.tmp" "$override"
+		echo "  -> $host-settings.json"
+	fi
+done 3<<<"$keys"
+
+echo
+"$dir/dms-settings-merge"
+if diff -q <(jq -S . "$live") <(jq -S -s '.[0] * .[1]' "$common" "$override") >/dev/null; then
+	echo "reconciled: settings.json now matches settings-common.json + $host-settings.json"
+else
+	echo "warning: settings.json still differs after reconciling, check manually" >&2
+fi

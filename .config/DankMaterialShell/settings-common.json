@@ -1,6 +1,6 @@
 {
   "currentThemeName": "purple",
-  "currentThemeCategory": "registry",
+  "currentThemeCategory": "generic",
   "customThemeFile": "/home/erich/.config/DankMaterialShell/themes/bru/theme.json",
   "registryThemeVariants": {
     "bru": {
@@ -163,7 +163,7 @@
       "width": 50
     }
   ],
-  "showWorkspaceIndex": false,
+  "showWorkspaceIndex": true,
   "showWorkspaceName": false,
   "showWorkspacePadding": false,
   "workspaceScrolling": false,
@@ -289,7 +289,7 @@
     },
     {
       "id": "media",
-      "enabled": true
+      "enabled": false
     },
     {
       "id": "wallpaper",
@@ -402,7 +402,7 @@
   "matugenTemplateMangowc": true,
   "matugenTemplateQt5ct": true,
   "matugenTemplateQt6ct": true,
-  "matugenTemplateFirefox": true,
+  "matugenTemplateFirefox": false,
   "matugenTemplatePywalfox": true,
   "matugenTemplateZenBrowser": true,
   "matugenTemplateVesktop": true,
@@ -411,7 +411,7 @@
   "matugenTemplateGhostty": true,
   "matugenTemplateKitty": true,
   "matugenTemplateFoot": true,
-  "matugenTemplateAlacritty": true,
+  "matugenTemplateAlacritty": false,
   "matugenTemplateNeovim": false,
   "matugenTemplateWezterm": true,
   "matugenTemplateDgop": true,
@@ -502,7 +502,7 @@
   "notificationPopupPosition": 0,
   "notificationAnimationSpeed": 1,
   "notificationCustomAnimationDuration": 400,
-  "notificationHistoryEnabled": true,
+  "notificationHistoryEnabled": false,
   "notificationHistoryMaxCount": 50,
   "notificationHistoryMaxAgeDays": 7,
   "notificationHistorySaveLow": true,
@@ -613,7 +613,7 @@
       "widgetTransparency": 1,
       "squareCorners": false,
       "noBackground": false,
-      "maximizeWidgetIcons": false,
+      "maximizeWidgetIcons": true,
       "maximizeWidgetText": false,
       "removeWidgetPadding": false,
       "widgetPadding": 8,
@@ -723,7 +723,14 @@
   "desktopWidgetGridSettings": {},
   "desktopWidgetInstances": [],
   "desktopWidgetGroups": [],
-  "builtInPluginSettings": {},
+  "builtInPluginSettings": {
+    "dms_settings_search": {
+      "trigger": "?"
+    },
+    "dms_clipboard_search": {
+      "trigger": "cb"
+    }
+  },
   "clipboardClickToPaste": false,
   "clipboardEnterToPaste": false,
   "clipboardRememberTypeFilter": false,

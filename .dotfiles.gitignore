@@ -16,6 +16,9 @@
 # dms-shell one-shot marker files (empty, touched to record "seen")
 /.config/DankMaterialShell/.changelog-*
 /.config/DankMaterialShell/.firstlaunch
+# generated at DMS launch by dms-settings-merge from settings-common.json +
+# <hostname>-settings.json, never itself synced
+/.config/DankMaterialShell/settings.json
 !/.config/alacritty/
 !/.config/bash/
 !/.config/bat/
@@ -26,5 +29,12 @@
 !/.config/rofi/
 !/.config/volumeicon/
 !/.config/xdg-desktop-portal/
+
+# only this repo's dms-settings-merge hook, not the rest of ~/.config/systemd
+!/.config/systemd/
+/.config/systemd/*
+!/.config/systemd/user/
+/.config/systemd/user/*
+!/.config/systemd/user/dms.service.d/
 
 .claude/
