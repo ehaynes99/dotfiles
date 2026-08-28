@@ -4,7 +4,6 @@ binds {
     Ctrl+XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "decrement" "3"; }
     Ctrl+XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "increment" "3"; }
     Mod+Alt+L hotkey-overlay-title="Lock Screen" { spawn "dms" "ipc" "call" "lock" "lock"; }
-    Mod+B hotkey-overlay-title="Open Browser" { spawn "brave" "--new-window" "--profile-directory=Default"; }
     Mod+Comma hotkey-overlay-title="Settings" { spawn "dms" "ipc" "call" "settings" "focusOrToggle"; }
     Mod+N hotkey-overlay-title="Notification Center" { spawn "dms" "ipc" "call" "notifications" "toggle"; }
     Mod+Shift+N hotkey-overlay-title="Notepad" { spawn "dms" "ipc" "call" "notepad" "toggle"; }
@@ -39,6 +38,8 @@ binds {
     Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
     Mod+Ctrl+WheelScrollUp cooldown-ms=150 { move-column-to-workspace-up; }
     Mod+I { focus-workspace-up; }
+    Mod+J { focus-window-or-workspace-down; }
+    Mod+K { focus-window-or-workspace-up; }
     Mod+Page_Down { focus-workspace-down; }
     Mod+Page_Up { focus-workspace-up; }
     Mod+Shift+1 { move-column-to-workspace 1; }
@@ -51,6 +52,8 @@ binds {
     Mod+Shift+8 { move-column-to-workspace 8; }
     Mod+Shift+9 { move-column-to-workspace 9; }
     Mod+Shift+I { move-workspace-up; }
+    Mod+Shift+J { move-window-down-or-to-workspace-down; }
+    Mod+Shift+K { move-window-up-or-to-workspace-up; }
     Mod+Shift+Page_Down { move-workspace-down; }
     Mod+Shift+Page_Up { move-workspace-up; }
     Mod+Shift+U { move-workspace-down; }
@@ -59,6 +62,7 @@ binds {
     Mod+WheelScrollUp cooldown-ms=150 { focus-workspace-up; }
     Alt+Print { screenshot-window; }
     Alt+XF86Launch1 { screenshot-window; }
+    Mod+B hotkey-overlay-title="Open Browser" { spawn "brave" "--new-window" "--profile-directory=Default"; }
     Mod+BracketLeft { consume-or-expel-window-left; }
     Mod+BracketRight { consume-or-expel-window-right; }
     Mod+C { center-column; }
@@ -82,10 +86,6 @@ binds {
     Mod+Equal { set-column-width "+10%"; }
     Mod+H { focus-column-left; }
     Mod+Home { focus-column-first; }
-    // Mod+J { focus-window-down; }
-    Mod+J { focus-window-or-workspace-down; }
-    // Mod+K { focus-window-up; }
-    Mod+K { focus-window-or-workspace-up; }
     Mod+L { focus-column-right; }
     Mod+Left { focus-column-left; }
     Mod+M { maximize-column; }
@@ -106,10 +106,6 @@ binds {
     Mod+Shift+Equal { set-window-height "+10%"; }
     Mod+Shift+F { fullscreen-window; }
     Mod+Shift+H { move-column-left; }
-    // Mod+Shift+J { move-window-down; }
-    Mod+Shift+J { move-window-down-or-to-workspace-down; }
-    // Mod+Shift+K { move-window-up; }
-    Mod+Shift+K { move-window-up-or-to-workspace-up; }
     Mod+Shift+L { move-column-right; }
     Mod+Shift+Left { move-column-left; }
     Mod+Shift+Minus { set-window-height "-10%"; }
@@ -127,11 +123,10 @@ binds {
     Mod+Shift+P { power-off-monitors; }
     Ctrl+Print { screenshot-screen; }
     Ctrl+XF86Launch1 { screenshot-screen; }
-    Print { spawn "/home/erich/.config/niri/scripts/flameshot-gui.sh"; }
     XF86Launch1 { screenshot; }
     Mod+Shift+E { quit; }
     Mod+Return hotkey-overlay-title="Open Terminal" { spawn "alacritty"; }
-    Mod+T hotkey-overlay-title="Open Terminal" { spawn "alacritty"; }
+    Print { spawn "/home/erich/.config/niri/scripts/flameshot-gui.sh"; }
     Mod+D repeat=false { toggle-overview; }
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+Shift+Slash { show-hotkey-overlay; }
