@@ -2,4 +2,4 @@
 
 # Show commits in branch
 
-git cherry -v "$(git get-default)"
+git cherry -v "origin/$(git get-default)"

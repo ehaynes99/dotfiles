@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Find the default branch. master, main, etc.
-if [ ! -e "./.git/refs/remotes/origin/HEAD" ]; then
+if ! git rev-parse -q --verify refs/remotes/origin/HEAD >/dev/null; then
 	echo 'missing HEAD' >&2
 	git remote set-head origin --auto
 fi
