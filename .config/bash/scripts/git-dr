@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Diff remote: fetch and show what a pull would bring in vs. what's outbound.
+
+git fetch
+git log --oneline --left-right --graph HEAD...@{u}
