@@ -13,12 +13,6 @@
 /.config/*
 
 !/.config/DankMaterialShell/
-# dms-shell one-shot marker files (empty, touched to record "seen")
-/.config/DankMaterialShell/.changelog-*
-/.config/DankMaterialShell/.firstlaunch
-# generated at DMS launch by dms-settings-merge from settings-common.json +
-# <hostname>-settings.json, never itself synced
-/.config/DankMaterialShell/settings.json
 !/.config/alacritty/
 !/.config/bash/
 !/.config/bat/
@@ -26,13 +20,6 @@
 !/.config/eh-claude-plugins/
 !/.config/gitui/
 !/.config/niri/
-# DMS auto-generates these from settings.json (colors on theme/wallpaper
-# change, the rest at DMS startup) - included with optional=true in
-# config.kdl so a missing copy doesn't break niri's config parsing
-/.config/niri/dms/colors.kdl
-/.config/niri/dms/layout.kdl
-/.config/niri/dms/alttab.kdl
-/.config/niri/dms/cursor.kdl
 !/.config/ripgrep/
 !/.config/rofi/
 !/.config/volumeicon/

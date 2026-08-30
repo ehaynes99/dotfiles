@@ -1,0 +1,6 @@
+# dms-shell one-shot marker files (empty, touched to record "seen")
+.changelog-*
+.firstlaunch
+# generated at DMS launch by dms-settings-merge from settings-common.json +
+# <hostname>-settings.json, never itself synced
+settings.json
