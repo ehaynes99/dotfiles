@@ -284,10 +284,10 @@ recent-windows {
 }
 
 // Include dms files
-include "dms/colors.kdl"
-include "dms/layout.kdl"
-include "dms/alttab.kdl"
+include "dms/colors.kdl" optional=true
+include "dms/layout.kdl" optional=true
+include "dms/alttab.kdl" optional=true
 include "dms/binds.kdl"
 include "dms/outputs.kdl"
-include "dms/cursor.kdl"
+include "dms/cursor.kdl" optional=true
 include "dms/windowrules.kdl"

@@ -26,6 +26,13 @@
 !/.config/eh-claude-plugins/
 !/.config/gitui/
 !/.config/niri/
+# DMS auto-generates these from settings.json (colors on theme/wallpaper
+# change, the rest at DMS startup) - included with optional=true in
+# config.kdl so a missing copy doesn't break niri's config parsing
+/.config/niri/dms/colors.kdl
+/.config/niri/dms/layout.kdl
+/.config/niri/dms/alttab.kdl
+/.config/niri/dms/cursor.kdl
 !/.config/ripgrep/
 !/.config/rofi/
 !/.config/volumeicon/
