@@ -23,6 +23,7 @@
 !/.config/bash/
 !/.config/bat/
 !/.config/copyq/
+!/.config/eh-claude-plugins/
 !/.config/gitui/
 !/.config/niri/
 !/.config/ripgrep/

@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+# Bumps the patch version of the given plugin(s) (or all, if none given) and
+# syncs the change from this marketplace into the installed plugin cache.
+# Restart any running Claude Code sessions afterward to pick it up.
+#
+# Usage: republish [plugin ...]
+
+usage() {
+	echo "usage: republish [plugin ...]" >&2
+	exit 1
+}
+
+marketplace_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+marketplace_name="eh-personal-tools"
+
+plugins=("$@")
+if [[ ${#plugins[@]} -eq 0 ]]; then
+	for d in "$marketplace_dir"/*/; do
+		[[ -f "$d/.claude-plugin/plugin.json" ]] && plugins+=("$(basename "${d%/}")")
+	done
+fi
+
+for plugin in "${plugins[@]}"; do
+	manifest="$marketplace_dir/$plugin/.claude-plugin/plugin.json"
+	[[ -f "$manifest" ]] || { echo "republish: no such plugin '$plugin' ($manifest not found)" >&2; exit 1; }
+
+	jq '.version |= (split(".") | .[2] = ((.[2] | tonumber) + 1 | tostring) | join("."))' "$manifest" >"$manifest.tmp"
+	mv "$manifest.tmp" "$manifest"
+	echo "republish: $plugin -> $(jq -r '.version' "$manifest")"
+done
+
+claude plugin marketplace update "$marketplace_name"
+
+installed_plugins="$HOME/.claude/plugins/installed_plugins.json"
+
+for plugin in "${plugins[@]}"; do
+	claude plugin update "$plugin@$marketplace_name" --scope user -y
+
+	# claude plugin update never removes the version dir it replaced, so
+	# every republish would otherwise leave a stale copy behind forever.
+	cache_dir="$HOME/.claude/plugins/cache/$marketplace_name/$plugin"
+	current_version=$(jq -r --arg p "$plugin@$marketplace_name" '.plugins[$p][0].version // empty' "$installed_plugins")
+	if [[ -n "$current_version" && -d "$cache_dir" ]]; then
+		for v in "$cache_dir"/*/; do
+			v=${v%/}
+			[[ "$(basename "$v")" == "$current_version" ]] || rm -rf "$v"
+		done
+	fi
+done
+
+echo "republish: done — restart any running Claude Code sessions to apply."

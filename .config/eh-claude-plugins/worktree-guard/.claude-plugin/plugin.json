@@ -1,0 +1,5 @@
+{
+  "name": "worktree-guard",
+  "version": "0.1.3",
+  "description": "Blocks raw `git worktree add` and redirects to worktree-create, which also links Claude Code project memory into the new worktree."
+}

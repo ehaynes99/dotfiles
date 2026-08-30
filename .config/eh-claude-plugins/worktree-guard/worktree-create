@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+# Create a git worktree, then symlink its Claude Code project memory dir back
+# to the main worktree's, so Claude sessions in the worktree share memory
+# instead of starting blank.
+#
+# Usage:
+#   worktree-create <path> <branch>                        existing branch
+#   worktree-create -b <path> <new-branch> [<start-point>]  new branch
+
+usage() {
+	echo "usage: worktree-create [-b] <path> <branch> [<start-point>]" >&2
+	exit 1
+}
+
+new_branch=false
+if [[ "${1:-}" == "-b" ]]; then
+	new_branch=true
+	shift
+fi
+
+path=${1:-}
+branch=${2:-}
+start_point=${3:-}
+
+[[ -n "$path" && -n "$branch" ]] || usage
+
+git rev-parse --git-common-dir >/dev/null || exit 1
+
+if $new_branch; then
+	git worktree add -b "$branch" "$path" ${start_point:+"$start_point"} || exit 1
+else
+	git worktree add "$path" "$branch" || exit 1
+fi
+
+git_common_dir=$(git rev-parse --path-format=absolute --git-common-dir)
+main_root=$(dirname "$git_common_dir")
+
+if [[ "$git_common_dir" != "$main_root/.git" ]]; then
+	echo "worktree-create: git dir is not <root>/.git (got $git_common_dir) — this isn't a normal checkout (e.g. a bare repo with an external --work-tree), so the main worktree's root can't be trusted to match a real Claude Code project. Skipping memory link." >&2
+	exit 0
+fi
+
+worktree_root=$(cd "$path" && pwd -P)
+
+slugify() { sed 's@[/.]@-@g' <<<"$1"; }
+
+main_memory="$HOME/.claude/projects/$(slugify "$main_root")/memory"
+worktree_project="$HOME/.claude/projects/$(slugify "$worktree_root")"
+worktree_memory="$worktree_project/memory"
+
+mkdir -p "$main_memory" "$worktree_project"
+
+if [[ -e "$worktree_memory" || -L "$worktree_memory" ]]; then
+	echo "worktree-create: $worktree_memory already exists, leaving it alone" >&2
+else
+	ln -s "$main_memory" "$worktree_memory"
+	echo "worktree-create: linked memory -> $main_memory"
+fi

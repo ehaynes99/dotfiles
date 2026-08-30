@@ -1,0 +1,7 @@
+{
+  "name": "eh-personal-tools",
+  "owner": { "name": "Erich Haynes" },
+  "plugins": [
+    { "name": "worktree-guard", "source": "./worktree-guard" }
+  ]
+}

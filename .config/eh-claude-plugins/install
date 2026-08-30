@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# One-time (idempotent) setup for a new machine: registers this directory as
+# a plugin marketplace and installs every plugin in it, user scope.
+
+marketplace_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+marketplace_name="eh-personal-tools"
+
+claude plugin marketplace add "$marketplace_dir"
+
+for d in "$marketplace_dir"/*/; do
+	[[ -f "$d/.claude-plugin/plugin.json" ]] || continue
+	plugin=$(basename "$d")
+	claude plugin install "$plugin@$marketplace_name" --scope user -y
+done
