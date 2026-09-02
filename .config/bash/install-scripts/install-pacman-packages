@@ -2,7 +2,6 @@
 set -euo pipefail
 
 packages=(
-	acpilight
 	alacritty
 	archlinux-keyring
 	autoconf
@@ -17,7 +16,6 @@ packages=(
 	cloc
 	cmake
 	consolas-font
-	copyq
 	csvlens
 	discord
 	docker
@@ -28,7 +26,6 @@ packages=(
 	expac
 	fd
 	feh
-	ffmpegthumbs
 	firefox
 	flameshot
 	font-manager
@@ -38,30 +35,42 @@ packages=(
 	github-cli
 	gitui
 	glibc
+	gnome-keyring
 	gpicview
 	hwinfo
 	jq
+	markdown2pdf
 	neovim
 	neovim-remote
 	nerd-fonts-complete
 	net-tools
 	network-manager-applet
 	networkmanager
+	noto-fonts-cjk
 	noto-fonts-emoji
-	pasystray
+	openssh
+	pacman-contrib
 	pdfarranger
 	reflector
 	ripgrep
 	rsync
 	slack-desktop
+	speedtest-cli
 	tealdeer
 	terminus-font
-	thunar
-	thunar-volman
+	tree
 	unzip
+	vim
 	wget
 	wgetpaste
 	wl-clipboard
+
+	# thunar
+	ffmpegthumbs
+	gvfs
+	thunar
+	thunar-volman
+	tumbler
 )
 
 if ! command -v paru &>/dev/null; then
@@ -74,4 +83,13 @@ if ! command -v paru &>/dev/null; then
 	rm -rf "$tmpdir"
 fi
 
-paru -S --needed "${packages[@]}"
+missing=()
+for pkg in "${packages[@]}"; do
+	pacman -Qi "$pkg" &>/dev/null || missing+=("$pkg")
+done
+
+if [ "${#missing[@]}" -gt 0 ]; then
+	paru -S --needed "${missing[@]}"
+else
+	echo "all packages already installed"
+fi

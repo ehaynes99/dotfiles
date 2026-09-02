@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Temporary companion to install-pacman-packages: packages dropped from that
+# list that older machines may still have installed. Run once per machine
+# during the niri/DMS migration, then delete this file (and its dit tracking)
+# once every machine has been through it.
+packages=(
+  acpilight
+	copyq
+	pasystray
+)
+
+sudo pacman -Rns "${packages[@]}"
