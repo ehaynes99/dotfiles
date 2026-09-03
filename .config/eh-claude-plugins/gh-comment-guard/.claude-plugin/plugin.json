@@ -1,0 +1,5 @@
+{
+  "name": "gh-comment-guard",
+  "version": "0.1.0",
+  "description": "Blocks Bash commands that would post a GitHub PR/issue comment or review, since `gh` authenticates as the user and the comment would appear under their name."
+}
