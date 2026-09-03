@@ -19,6 +19,7 @@
 !/.config/eh-claude-plugins/
 # !/.config/copyq/
 !/.config/gitui/
+!/.config/herdr/
 !/.config/niri/
 !/.config/ripgrep/
 !/.config/rofi/

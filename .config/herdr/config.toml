@@ -1,0 +1,7 @@
+[ui]
+agent_panel_sort = "spaces"
+[ui.sound]
+enabled = false
+# path = "notification-tone.mp3"
+# done_path = "notification-tone.mp3"
+# request_path = "notification-tone.mp3"
