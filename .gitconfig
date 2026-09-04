@@ -32,3 +32,5 @@
   helper = !/usr/bin/gh auth git-credential
 [pull]
   rebase = true
+[credential "https://conexiom.visualstudio.com"]
+	helper = azuredevops
