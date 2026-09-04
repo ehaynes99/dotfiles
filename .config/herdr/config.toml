@@ -5,3 +5,42 @@ enabled = false
 # path = "notification-tone.mp3"
 # done_path = "notification-tone.mp3"
 # request_path = "notification-tone.mp3"
+
+# Seamless ctrl+h/j/k/l between herdr panes and Neovim splits.
+# The script forwards the chord into Vim/Neovim panes and moves pane focus
+# everywhere else; the editor side lives in ~/.config/nvim/lua/keymaps.lua.
+
+[[keys.command]]
+key = "ctrl+h"
+type = "shell"
+command = "/home/erich/.config/herdr/vim-navigate.sh left"
+description = "navigate left (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "shell"
+command = "/home/erich/.config/herdr/vim-navigate.sh down"
+description = "navigate down (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "shell"
+command = "/home/erich/.config/herdr/vim-navigate.sh up"
+description = "navigate up (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "shell"
+command = "/home/erich/.config/herdr/vim-navigate.sh right"
+description = "navigate right (vim/herdr)"
+
+# Ctrl+n: build the standard dev layout in the focused tab — Neovim left 2/3,
+# Claude right 1/3, both in the workspace's directory. The script refuses
+# unless the tab is a single idle shell, because layout.apply rebuilds the tab
+# from scratch and would kill whatever is already running there.
+
+[[keys.command]]
+key = "ctrl+n"
+type = "shell"
+command = "/home/erich/.config/herdr/dev-layout.sh"
+description = "dev layout (nvim + claude)"
