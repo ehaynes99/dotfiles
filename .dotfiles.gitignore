@@ -16,6 +16,7 @@
 !/.config/alacritty/
 !/.config/bash/
 !/.config/bat/
+!/.config/display/
 !/.config/eh-claude-plugins/
 # !/.config/copyq/
 !/.config/gitui/

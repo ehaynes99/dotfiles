@@ -1,0 +1,11 @@
+#!/bin/sh
+# Forces a DRM connector re-probe after resume. Without it a KVM that does not
+# re-assert HPD leaves the monitor undetected until you toggle the input.
+case "$1/$2" in
+  post/*)
+    for status in /sys/class/drm/card*-*/status; do
+      [ -w "$status" ] && echo detect > "$status"
+    done
+    ;;
+esac
+exit 0
