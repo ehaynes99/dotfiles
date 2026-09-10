@@ -1,7 +1,7 @@
-# DMS auto-generates these from settings.json (colors on theme/wallpaper
-# change, the rest at DMS startup) - included with optional=true in
-# config.kdl so a missing copy doesn't break niri's config parsing
-colors.kdl
-layout.kdl
+# auto-generated files
 alttab.kdl
+colors.kdl
 cursor.kdl
+input.kdl
+layout.kdl
+windowrules.kdl

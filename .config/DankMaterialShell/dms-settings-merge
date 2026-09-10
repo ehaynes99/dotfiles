@@ -5,6 +5,11 @@
 # starts with this host's overrides (theme, etc.) applied on top of
 # whatever's shared. See the reconcile-dms-settings skill for splitting
 # live settings.json edits back into these two tracked files.
+#
+# configVersion is migration state, not config: DMS bumps it as it applies
+# schema migrations, so the live value wins over the tracked one. Injecting
+# the tracked value would rewind it and re-run every migration on each
+# start. The tracked value only seeds a machine with no settings.json yet.
 set -euo pipefail
 
 dir="$HOME/.config/DankMaterialShell"
@@ -13,7 +18,23 @@ override="$dir/$(cat /etc/hostname)-settings.json"
 out="$dir/settings.json"
 
 if [[ -f "$override" ]]; then
-	jq -s '.[0] * .[1]' "$common" "$override" >"$out"
+	merged=$(jq -s '.[0] * .[1]' "$common" "$override")
 else
-	cp "$common" "$out"
+	merged=$(cat "$common")
 fi
+
+if [[ -f "$out" ]]; then
+	unreconciled=$(jq -r -n --argjson m "$merged" --slurpfile l "$out" \
+		'(($l[0] | keys) - ($m | keys) - ["configVersion"])[]' 2>/dev/null || true)
+	if [[ -n "$unreconciled" ]]; then
+		echo "dms-settings-merge: dropping unreconciled keys:" \
+			"$(tr '\n' ' ' <<<"$unreconciled")" >&2
+	fi
+
+	live_version=$(jq -c '.configVersion // empty' "$out" 2>/dev/null || true)
+	if [[ -n "$live_version" ]]; then
+		merged=$(jq --argjson v "$live_version" '.configVersion = $v' <<<"$merged")
+	fi
+fi
+
+jq . <<<"$merged" >"$out"

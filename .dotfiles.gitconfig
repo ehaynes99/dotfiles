@@ -9,3 +9,6 @@
 [branch "master"]
 	remote = origin
 	merge = refs/heads/master
+[branch "display-edid-hpd"]
+	remote = origin
+	merge = refs/heads/display-edid-hpd

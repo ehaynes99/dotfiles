@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# or your AUR helper of choice
+paru -S greetd-dms-greeter-bin
+
+# don't use `sudo`, it'll prompt for elevation
+dms-greeter enable
+
+# `enable` added the `greeter` group to the current user, but this session won't
+# recognize it until the next login — `newgrp` forces it
+newgrp greeter <<<'dms-greeter sync'
+newgrp greeter <<<'dms-greeter status'
+
+cat <<'EOF'
+
+Now reboot the machine — not just `systemctl restart greetd`, the old
+compositor keeps DRM master and logins bounce back to the greeter.
+EOF
