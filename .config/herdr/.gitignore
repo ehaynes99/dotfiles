@@ -4,3 +4,4 @@
 !/.plugins.lock
 !/plugins.json
 !/vim-navigate.sh
+!/dev-layout.sh
