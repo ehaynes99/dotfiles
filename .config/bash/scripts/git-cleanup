@@ -19,6 +19,16 @@ gone=$(git for-each-ref --sort=refname \
 
 default=$(git get-default)
 
+# Empty unless herdr is installed, running, and has the worktree open.
+herdr_workspace() {
+	local path=$1
+	command -v herdr >/dev/null 2>&1 || return 0
+	command -v jq >/dev/null 2>&1 || return 0
+	herdr worktree list --cwd "$path" 2>/dev/null |
+		jq -r --arg path "$path" \
+			'.result.worktrees[]? | select(.path == $path) | .open_workspace_id // empty' 2>/dev/null
+}
+
 if [[ -z "$gone" ]]; then
 	echo 'No deleted branches exist.'
 else
@@ -37,9 +47,17 @@ CTRL-A to select all | CTRL-x to deselect all'
 	if [[ -n "$to_delete" ]]; then
 		while IFS=$'\t' read -r branch worktree; do
 			if [[ -n "$worktree" ]]; then
+				# herdr holds the checkout open, so it has to let go of it first.
+				# Its remove also deletes the checkout, leaving git nothing to do.
+				workspace=$(herdr_workspace "$worktree")
+				if [[ -n "$workspace" ]] && ! herdr worktree remove --workspace "$workspace" >/dev/null; then
+					echo "skipping $branch: herdr could not remove workspace $workspace" >&2
+					continue
+				fi
+
 				# Refuses on uncommitted changes, or if it is the current worktree.
 				# Leave the branch alone in that case rather than forcing.
-				if ! git worktree remove "$worktree"; then
+				if [[ -e "$worktree" ]] && ! git worktree remove "$worktree"; then
 					echo "skipping $branch: could not remove worktree $worktree" >&2
 					echo "  (use 'git worktree remove --force' if the changes are disposable)" >&2
 					continue
