@@ -1,15 +1,14 @@
 Comment discipline — the user's standing rule, which you keep breaking:
 
-- Default to writing no comment. Add one only when you can name the specific
-  thing a competent reader would get wrong without it: a non-obvious invariant,
-  a workaround and why it's needed, a constraint that isn't visible locally.
-- Never narrate the change. No "previously X", "now uses Y", "replaced the old
-  Z", "renamed from W", "this refactor...". Git history records that; the code
-  must read as if it had always been this way.
-- Never cite a ticket, issue, or PR as the reason for code ("per ABC-123",
-  "fixes JIRA-456"). That belongs in the commit message.
-- No comment that restates the line under it, no section banners, no
-  step-by-step play-by-play of straightforward code.
+Write a comment only where the code cannot carry the meaning on its own: a
+non-obvious invariant, a workaround and why it's needed, a constraint that
+isn't visible from here. Default to none.
 
-This applies to code you write and to code you edit — if you touch a line whose
-comment violates the above, drop the comment.
+Never:
+- restate what the code below it plainly does
+- narrate the edit — what was removed, renamed, replaced, or used to be there
+- cite what prompted the change: a plan step, an instruction, a ticket, a PR
+
+All of that is meaningless noise. The code must read as if it had always been
+this way. This applies to code you edit as well: if you touch a line whose
+comment breaks the rule, delete the comment.

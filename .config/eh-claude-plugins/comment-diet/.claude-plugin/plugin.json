@@ -1,5 +1,5 @@
 {
   "name": "comment-diet",
-  "version": "0.1.0",
-  "description": "Keeps Claude off the comment slather: injects the user's comment rule before edits, and flags change-narrating comments, ticket references, and high comment density after them."
+  "version": "0.1.1",
+  "description": "Keeps Claude off the comment slather: re-states the user's comment rule before every edit, and hands it to subagents on start."
 }
