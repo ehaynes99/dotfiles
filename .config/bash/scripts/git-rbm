@@ -7,6 +7,6 @@ if ! git diff --quiet || ! git diff --cached --quiet; then
 	exit 1
 fi
 
-default=$(git get-default)
-git co "$default" && git up && git co - && git rebase "$default"
+default=$(git get-default) || exit 1
+git fetch origin "$default" && git rebase "origin/$default"
 
