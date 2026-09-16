@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+# Sends `:qa` to every running nvim instance, so autocmds (session save, LSP
+# shutdown, swapfile cleanup) actually run — unlike pkill, which skips all of it.
+
+force=0
+if [[ ${1-} == -f || ${1-} == --force ]]; then
+	force=1
+fi
+
+# Every nvim listens here by default (see :help $NVIM_LISTEN_ADDRESS / v:servername).
+sockets=("${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"/nvim.*)
+
+closed=0
+skipped=0
+
+for sock in "${sockets[@]}"; do
+	[[ -S $sock ]] || continue
+
+	# --headless is load-bearing: without it the client spins up a TUI, spraying
+	# terminal capability queries over the calling terminal and burying the
+	# expression's result in escape sequences.
+	#
+	# Doubles as a liveness check: sockets left behind by crashed instances fail
+	# here with E247 and get skipped.
+	modified=$(timeout 2 nvim --headless --server "$sock" --remote-expr \
+		'len(filter(getbufinfo({"bufloaded":1}),{_,b->b.changed}))' 2>/dev/null) || continue
+
+	if [[ $modified != 0 && $force -eq 0 ]]; then
+		echo "skipping ${sock##*/}: $modified modified buffer(s)" >&2
+		((skipped++))
+		continue
+	fi
+
+	cmd=':qa'
+	[[ $force -eq 1 ]] && cmd=':qa!'
+
+	# <C-\><C-N> first, or the keys land in insert/terminal mode instead of the
+	# cmdline. The send is fire-and-forget; nvim tears down on its own schedule.
+	nvim --headless --server "$sock" --remote-send "<C-\\><C-N>$cmd<CR>" 2>/dev/null
+	((closed++))
+done
+
+echo "closed $closed instance(s), skipped $skipped"
+[[ $skipped -eq 0 ]]
