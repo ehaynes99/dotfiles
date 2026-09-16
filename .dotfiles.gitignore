@@ -17,6 +17,7 @@
 !/.config/bash/
 !/.config/bat/
 !/.config/eh-claude-plugins/
+!/.config/eh-claude-skills/
 # !/.config/copyq/
 !/.config/gitui/
 !/.config/herdr/
