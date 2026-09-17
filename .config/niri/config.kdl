@@ -164,6 +164,9 @@ overview {
 environment {
   XDG_CURRENT_DESKTOP "niri"
 }
+
+// Reapplies MX Master 3S thumb-wheel inversion, which the mouse loses on power-cycle.
+spawn-at-startup "solaar" "--window=hide"
 hotkey-overlay {
     skip-at-startup
 }
