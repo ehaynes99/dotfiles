@@ -34,3 +34,5 @@
   rebase = true
 [credential "https://conexiom.visualstudio.com"]
 	helper = azuredevops
+[credential "https://dev.azure.com"]
+	helper = azuredevops

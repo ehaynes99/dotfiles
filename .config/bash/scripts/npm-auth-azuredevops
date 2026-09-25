@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# Refreshes Azure Artifacts npm credentials in ~/.npmrc from the Azure CLI's
+# login session.
+#
+# Usage:
+#   npm-auth-azuredevops [feed-url ...]
+#
+# With no arguments, defaults to the shared Conexiom feed. Requires an active
+# `az login`. The token expires in about an hour; re-run when installs 401.
+
+set -euo pipefail
+
+# Fixed resource ID for Azure DevOps; identical across all tenants.
+readonly AZURE_DEVOPS_RESOURCE_ID='499b84ac-1321-427f-aa17-267ca6975798'
+
+readonly NPMRC="${NPMRC:-$HOME/.npmrc}"
+readonly BEGIN='# >>> npm-auth-azuredevops >>>'
+readonly END='# <<< npm-auth-azuredevops <<<'
+
+feeds=("$@")
+if [[ ${#feeds[@]} -eq 0 ]]; then
+  feeds=('https://conexiom.pkgs.visualstudio.com/_packaging/cnxm_npm_feed/npm/registry/')
+fi
+
+token=$(az account get-access-token \
+  --resource "$AZURE_DEVOPS_RESOURCE_ID" \
+  --query accessToken -o tsv)
+
+block=$BEGIN$'\n'
+for feed in "${feeds[@]}"; do
+  # npm keys auth by "//host/path", with no scheme. Azure Artifacts serves reads
+  # under .../npm/registry/ and writes under .../npm/, so authenticate both.
+  registry=${feed#http*://}
+  registry=${registry%/}/
+
+  for path in "$registry" "${registry%registry/}"; do
+    block+="//${path}:_authToken=${token}"$'\n'
+    block+="//${path}:always-auth=true"$'\n'
+  done
+done
+block+=$END
+
+umask 077
+touch "$NPMRC"
+
+tmp=$(mktemp)
+awk -v begin="$BEGIN" -v end="$END" '
+  $0 == begin { skip = 1 }
+  !skip       { print }
+  $0 == end   { skip = 0 }
+' "$NPMRC" >"$tmp"
+printf '%s\n' "$block" >>"$tmp"
+mv "$tmp" "$NPMRC"
+chmod 600 "$NPMRC"
+
+printf 'Wrote Azure Artifacts credentials to %s\n' "$NPMRC" >&2
