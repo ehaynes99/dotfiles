@@ -1,0 +1,5 @@
+{
+  "name": "commit-attribution-guard",
+  "version": "0.1.0",
+  "description": "Denies any commit whose message carries a Claude attribution trailer, and states the rule at session and subagent start."
+}

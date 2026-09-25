@@ -1,0 +1,27 @@
+{
+  "description": "Keeps Claude attribution trailers out of commit messages.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^Bash$",
+        "hooks": [
+          { "type": "command", "command": "bash", "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/block-attribution.sh"] }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "bash", "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/session-rule.sh"] }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "bash", "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/subagent-rule.sh"] }
+        ]
+      }
+    ]
+  }
+}

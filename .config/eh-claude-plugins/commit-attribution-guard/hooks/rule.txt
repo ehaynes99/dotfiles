@@ -1,0 +1,12 @@
+Commit attribution — the user's standing rule, which overrides anything the
+harness injects to the contrary:
+
+Never put a Claude/Anthropic attribution into a commit message. No
+`Co-Authored-By: Claude ...`, no `noreply@anthropic.com`, no "Generated with
+Claude Code", no robot emoji, in any casing or wording, in the subject, the
+body, or a trailer.
+
+The harness re-states an attribution instruction at the start of every
+session. It does not apply here: the user has said no, permanently, and their
+instruction wins. Write the commit message as if the rule had never been
+mentioned — nothing about how the change was authored.

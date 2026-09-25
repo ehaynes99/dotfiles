@@ -4,6 +4,7 @@
   "plugins": [
     { "name": "worktree-guard", "source": "./worktree-guard" },
     { "name": "gh-comment-guard", "source": "./gh-comment-guard" },
-    { "name": "comment-diet", "source": "./comment-diet" }
+    { "name": "comment-diet", "source": "./comment-diet" },
+    { "name": "commit-attribution-guard", "source": "./commit-attribution-guard" }
   ]
 }
