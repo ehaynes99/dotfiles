@@ -1,11 +1,18 @@
 {
-  "description": "Injects the user's comment-discipline rule before every edit.",
+  "description": "Denies edits that add comments, and injects the user's comment rule before every response.",
   "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          { "type": "command", "command": "bash", "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/prompt-rule.sh"] }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
-        "matcher": "^(Edit|Write|MultiEdit|NotebookEdit)$",
+        "matcher": "^(Edit|Write|MultiEdit)$",
         "hooks": [
-          { "type": "command", "command": "bash", "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/remind.sh"] }
+          { "type": "command", "command": "python3", "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/check.py"] }
         ]
       }
     ],

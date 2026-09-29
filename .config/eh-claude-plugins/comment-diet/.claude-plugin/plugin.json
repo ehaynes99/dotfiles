@@ -1,5 +1,5 @@
 {
   "name": "comment-diet",
-  "version": "0.1.1",
-  "description": "Keeps Claude off the comment slather: re-states the user's comment rule before every edit, and hands it to subagents on start."
+  "version": "0.1.3",
+  "description": "Keeps Claude off the comment slather: denies edits that add comments, and states the rule before every response and to subagents."
 }
