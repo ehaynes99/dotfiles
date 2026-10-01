@@ -3,6 +3,7 @@
 !/dotfiles/*
 !/.dotfiles.gitignore
 !/.dotfiles.gitconfig
+!/.dotfiles.gitattributes
 !/.github
 !/.gitconfig
 !/.bashrc

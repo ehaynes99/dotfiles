@@ -3,6 +3,7 @@
 	filemode = true
 	bare = true
 	excludesFile = ~/.dotfiles.gitignore
+	attributesFile = ~/.dotfiles.gitattributes
 [remote "origin"]
 	url = git@github.com:ehaynes99/dotfiles.git
 	fetch = +refs/heads/*:refs/remotes/origin/*
@@ -12,3 +13,5 @@
 [branch "display-edid-hpd"]
 	remote = origin
 	merge = refs/heads/display-edid-hpd
+[filter "solaar"]
+	clean = sed '/^ *_config_cookie:/d'
