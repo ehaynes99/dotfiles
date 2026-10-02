@@ -7,6 +7,10 @@ enabled = false
 # done_path = "notification-tone.mp3"
 # request_path = "notification-tone.mp3"
 
+[keys]
+next_workspace = "alt+j"
+previous_workspace = "alt+k"
+
 # Seamless ctrl+h/j/k/l between herdr panes and Neovim splits.
 # The script forwards the chord into Vim/Neovim panes and moves pane focus
 # everywhere else; the editor side lives in ~/.config/nvim/lua/keymaps.lua.
