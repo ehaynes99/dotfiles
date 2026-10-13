@@ -54,11 +54,9 @@ pre_path "$HOME/bin"
 pre_path "$HOME/.local/bin"
 pre_path "$HOME/.local/share/pnpm"
 pre_path "$BASH_CONFIG_DIR/scripts"
-for FILE in "$BASH_CONFIG_DIR"/scripts/*; do
-	if [ -d "$FILE" ]; then
-		pre_path "$FILE"
-	fi
-done
+while IFS= read -r -d '' DIR; do
+	pre_path "$DIR"
+done < <(find -L "$BASH_CONFIG_DIR/scripts" -mindepth 1 -type d -print0)
 
 safe_source local-overrides.sh
 safe_source secrets.sh
