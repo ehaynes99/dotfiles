@@ -3,8 +3,10 @@ alias grep='grep --color=auto'
 alias ls='ls -hN --color=auto'
 # alias which='alias | which -i'
 alias which='alias | which -i'
+alias cloc='cloc --vcs=git'
+
 alias newv='nvim -u /home/erich/.config/new-nvim/init.lua'
-# alias codeburn='npx -y codeburn'
+alias codeburn='npx -y codeburn'
 
 # Cliboard
 if [ -n "$WAYLAND_DISPLAY" ]; then
