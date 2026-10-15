@@ -36,3 +36,5 @@
 	helper = azuredevops
 [credential "https://dev.azure.com"]
 	helper = azuredevops
+[gpg "ssh"]
+	allowedSignersFile = ~/.ssh/allowed_signers
