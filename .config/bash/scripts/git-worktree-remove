@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+
+# Removes one worktree and its checkout directory, releasing it from herdr
+# first if herdr is holding it open.
+
+set -u
+
+dry_run=false
+if [[ ${1:-} == '--dry-run' ]]; then
+	dry_run=true
+	shift
+fi
+
+if [[ -z ${1:-} ]]; then
+	echo 'usage: git-worktree-remove [--dry-run] <worktree-path>' >&2
+	exit 2
+fi
+
+worktree=$(realpath -m "$1")
+
+main=$(git -C "$worktree" worktree list --porcelain 2>/dev/null |
+	awk 'NR == 1 { print $2; exit }')
+
+if [[ -z "$main" ]]; then
+	echo "not a git worktree: $worktree" >&2
+	exit 1
+fi
+
+cd "$main" || exit 1
+
+if ! git worktree list --porcelain | grep -qxF "worktree $worktree"; then
+	echo "not a worktree of $main: $worktree" >&2
+	exit 1
+fi
+
+# Empty unless herdr is installed, running, and has the worktree open.
+workspace=$(herdr worktree list --cwd "$worktree" 2>/dev/null |
+	jq -r --arg path "$worktree" \
+		'.result.worktrees[]? | select(.path == $path) | .open_workspace_id // empty' 2>/dev/null)
+
+if $dry_run; then
+	echo "delete directory: $worktree"
+	[[ -n "$workspace" ]] && echo "close herdr workspace: $workspace"
+	exit 0
+fi
+
+if [[ -n "$workspace" ]]; then
+	# herdr keeps the checkout path from when the workspace was created and
+	# doesn't follow a moved worktree, so its remove would target the stale path.
+	# Close the workspace and let git remove the checkout instead.
+	checkout=$(herdr workspace get "$workspace" 2>/dev/null |
+		jq -r '.result.workspace.worktree.checkout_path // empty' 2>/dev/null)
+	if [[ "$checkout" == "$worktree" ]]; then
+		herdr_cmd=(herdr worktree remove --workspace "$workspace")
+	else
+		herdr_cmd=(herdr workspace close "$workspace")
+	fi
+	if ! "${herdr_cmd[@]}" >/dev/null; then
+		echo "herdr could not remove workspace $workspace" >&2
+		exit 1
+	fi
+fi
+
+if [[ -e "$worktree" ]]; then
+	# Refuses on uncommitted changes, or if it is the current worktree.
+	git worktree remove "$worktree"
+else
+	git worktree prune
+fi
