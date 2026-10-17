@@ -35,6 +35,7 @@ packages=(
 	github-cli
 	gitui
 	glibc
+	greetd-dms-greeter-git
 	gnome-keyring
 	gpicview
 	hwinfo
@@ -64,6 +65,8 @@ packages=(
 	wget
 	wgetpaste
 	wl-clipboard
+	xdg-desktop-portal-gnome
+	xdg-desktop-portal-wlr
 
 	# thunar
 	ffmpegthumbs

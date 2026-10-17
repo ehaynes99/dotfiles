@@ -8,7 +8,6 @@
 !/.gitconfig
 !/.bashrc
 !/.bash_profile
-!/.dircolors
 
 !/.config
 /.config/*
@@ -19,14 +18,11 @@
 !/.config/bat/
 !/.config/eh-claude-plugins/
 !/.config/eh-claude-skills/
-# !/.config/copyq/
 !/.config/gitui/
 !/.config/herdr/
 !/.config/niri/
 !/.config/ripgrep/
-!/.config/rofi/
 !/.config/solaar/
-!/.config/volumeicon/
 !/.config/xdg-desktop-portal/
 
 # only this repo's dms-settings-merge hook, not the rest of ~/.config/systemd

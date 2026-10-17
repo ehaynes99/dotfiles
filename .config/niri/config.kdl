@@ -293,4 +293,4 @@ include "dms/alttab.kdl" optional=true
 include "dms/binds.kdl"
 include "dms/outputs.kdl"
 include "dms/cursor.kdl" optional=true
-include "dms/windowrules.kdl"
+include "dms/windowrules.kdl" optional=true
