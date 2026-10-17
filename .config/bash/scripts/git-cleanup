@@ -1,29 +1,54 @@
 #!/usr/bin/env bash
 
-# Finds all branches that have been merged or deleted from remote
+# Finds branches that were merged or deleted from remote, or with --no-remote,
+# branches that were never pushed at all.
 
 git rev-parse || exit
 
-if ! git symbolic-ref -q refs/remotes/origin/HEAD >/dev/null; then
-	echo 'missing HEAD'
-	git remote set-head origin --auto
-fi
+# Both emit "branch<TAB>worktree", where worktree is empty unless the branch is
+# checked out in one.
 
 # Only branches whose upstream is gone. Branches that were never pushed have no
-# upstream at all, so they never show up here. Emits "branch<TAB>worktree",
-# where worktree is empty unless the branch is checked out in one.
-gone=$(git for-each-ref --sort=refname \
-	--format='%(refname:short)	%(upstream:track)	%(worktreepath)' \
-	refs/heads |
-	awk -F'\t' '$2 == "[gone]" { print $1 "\t" $3 }')
+# upstream at all, so they never show up here.
+gone_branches() {
+	git for-each-ref --sort=refname \
+		--format='%(refname:short)	%(upstream:track)	%(worktreepath)' \
+		refs/heads |
+		awk -F'\t' '$2 == "[gone]" { print $1 "\t" $3 }'
+}
+
+# An empty %(upstream) means no upstream is configured, so the branch was never
+# pushed. %(upstream:track) is empty for an in-sync branch too, so it can't tell
+# the two apart.
+unpushed_branches() {
+	git for-each-ref --sort=refname \
+		--format='%(refname:short)	%(upstream)	%(worktreepath)' \
+		refs/heads |
+		awk -F'\t' '$2 == "" { print $1 "\t" $3 }'
+}
+
+case ${1:-} in
+	'')
+		branches=$(gone_branches)
+		none='No deleted branches exist.'
+		;;
+	--no-remote)
+		branches=$(unpushed_branches)
+		none='No unpushed branches exist.'
+		;;
+	*)
+		echo 'usage: git-cleanup [--no-remote]' >&2
+		exit 2
+		;;
+esac
 
 default=$(git get-default)
 
-if [[ -z "$gone" ]]; then
-	echo 'No deleted branches exist.'
+if [[ -z "$branches" ]]; then
+	echo "$none"
 else
 	to_delete=$(
-		echo "$gone" | fzf \
+		echo "$branches" | fzf \
 			--multi \
 			--preview="git cherry -v $default {1} | awk '{\$2=\"\"; print \$0}'" \
 			--preview-label="git cherry -v $default" \
