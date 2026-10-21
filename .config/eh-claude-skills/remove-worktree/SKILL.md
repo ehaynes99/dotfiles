@@ -44,5 +44,12 @@ this in a loop with an fzf picker. Point the user at it instead of looping here.
   `git worktree remove --force` yourself.
 - The branch survives unless the user asks for it. Then `git branch -d <branch>`
   after the worktree is gone; `-D` only if they say so.
+- Closing a herdr workspace kills every pane in it, including any Claude
+  session running there. If the dry-run's workspace id equals
+  `$HERDR_WORKSPACE_ID`, this session dies mid-run and can't report back.
+  Say so in the confirmation; on yes, run it last, after anything else you
+  owe the user, or hand them the command to run from another workspace. If
+  it's a different workspace, still name it in the confirmation: other
+  agents in it go too.
 - Several worktrees: dry-run them all, confirm once with the full list, then
   remove them one at a time.
