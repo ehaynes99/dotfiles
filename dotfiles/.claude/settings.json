@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "additionalDirectories": [
+      "~/.config/alacritty",
+      "~/.config/bash",
+      "~/.config/bat",
+      "~/.config/DankMaterialShell",
+      "~/.config/eh-claude-plugins",
+      "~/.config/eh-claude-skills",
+      "~/.config/gitui",
+      "~/.config/herdr",
+      "~/.config/niri",
+      "~/.config/ripgrep",
+      "~/.config/solaar"
+    ],
+    "allow": [
+      "Read(~/.gitconfig)",
+      "Edit(~/.gitconfig)",
+      "Read(~/.dotfiles.*)",
+      "Edit(~/.dotfiles.*)"
+    ]
+  }
+}

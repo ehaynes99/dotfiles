@@ -9,6 +9,16 @@ place; edits made through these paths land on the real files. A few genuine
 files live here too — this `CLAUDE.md`, and any other "dotfiles meta" file
 that belongs to the dotfiles setup itself rather than to a config elsewhere.
 
+## Symlink targets and permissions
+
+Claude's permission checks resolve symlinks, so each link target must be
+granted explicitly in `.claude/settings.json` — directories under
+`permissions.additionalDirectories`, single files as `Read(...)`/`Edit(...)`
+rules under `permissions.allow`. When a new symlink is added to this
+directory, add its target there too. Keep the list explicit (don't widen it
+to all of `~/.config`), and don't treat it as license to read outside the
+project anywhere else.
+
 ## Never commit or push here
 
 Claude must never run `dit commit`, `dit push`, or plain `git commit`/`push`
