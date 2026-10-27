@@ -68,5 +68,8 @@ CTRL-A to select all | CTRL-x to deselect all'
 			fi
 			git branch -D "$branch"
 		done <<<"$to_delete"
+	else
+		echo ""
+		echo "$branches" | cut -f1
 	fi
 fi
