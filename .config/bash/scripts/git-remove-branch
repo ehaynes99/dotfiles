@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+# Deletes branches, first removing any worktree each one is checked out in.
+
+git rev-parse || exit
+
+if (($# == 0)); then
+	echo 'usage: git-remove-branch <branch>...' >&2
+	exit 2
+fi
+
+status=0
+for branch; do
+	if ! git show-ref --verify --quiet "refs/heads/$branch"; then
+		echo "no such branch: $branch" >&2
+		status=1
+		continue
+	fi
+	worktree=$(git for-each-ref --format='%(worktreepath)' "refs/heads/$branch")
+	if [[ -n "$worktree" ]] && ! git-worktree-remove "$worktree"; then
+		# stdin may be a pipe, so prompt on the terminal.
+		read -r -p "Force-remove $worktree, discarding its changes? [Y/n] " answer </dev/tty
+		if [[ $answer == [nN]* ]] || ! git-worktree-remove --force "$worktree"; then
+			echo "skipping $branch: could not remove worktree $worktree" >&2
+			status=1
+			continue
+		fi
+	fi
+	git branch -D "$branch" || status=1
+done
+exit $status
