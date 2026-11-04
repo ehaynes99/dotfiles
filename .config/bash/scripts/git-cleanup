@@ -17,14 +17,15 @@ gone_branches() {
 		awk -F'\t' '$2 == "[gone]" { print $1 "\t" $3 }'
 }
 
-# An empty %(upstream) means no upstream is configured, so the branch was never
-# pushed. %(upstream:track) is empty for an in-sync branch too, so it can't tell
-# the two apart.
+# A branch was never pushed if it has no upstream, or its upstream is another
+# branch, e.g. a worktree branched with --track off origin/develop.
+# %(upstream:track) is empty for an in-sync branch too, so it can't tell these
+# apart.
 unpushed_branches() {
 	git for-each-ref --sort=refname \
-		--format='%(refname:short)	%(upstream)	%(worktreepath)' \
+		--format='%(refname:short)	%(upstream:lstrip=3)	%(worktreepath)' \
 		refs/heads |
-		awk -F'\t' '$2 == "" { print $1 "\t" $3 }'
+		awk -F'\t' '$2 != $1 { print $1 "\t" $3 }'
 }
 
 case ${1:-} in
@@ -60,17 +61,8 @@ CTRL-A to select all | CTRL-x to deselect all'
 	)
 
 	if [[ -n "$to_delete" ]]; then
-		while IFS=$'\t' read -r branch worktree; do
-			if [[ -n "$worktree" ]] && ! git-worktree-remove "$worktree"; then
-				# stdin is the branch list, so prompt on the terminal.
-				read -r -p "Force-remove $worktree, discarding its changes? [Y/n] " answer </dev/tty
-				if [[ $answer == [nN]* ]] || ! git-worktree-remove --force "$worktree"; then
-					echo "skipping $branch: could not remove worktree $worktree" >&2
-					continue
-				fi
-			fi
-			git branch -D "$branch"
-		done <<<"$to_delete"
+		mapfile -t selected < <(cut -f1 <<<"$to_delete")
+		git-remove-branch "${selected[@]}"
 	else
 		echo ""
 		echo "$branches" | cut -f1
