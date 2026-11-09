@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Sends /reload-plugins and /reload-skills to every idle Claude session in herdr.
+# Working/blocked sessions are skipped: input would queue or answer a permission prompt.
+
+set -euo pipefail
+
+agents=$(herdr agent list | jq -r '.result.agents[] | select(.agent == "claude") | [.pane_id, .agent_status, .terminal_title_stripped] | @tsv')
+
+while IFS=$'\t' read -r pane status title; do
+  [[ -z $pane || $pane == "${HERDR_PANE_ID:-}" ]] && continue
+  if [[ $status != idle && $status != done ]]; then
+    echo "skip  $pane ($status) $title"
+    continue
+  fi
+  for cmd in /reload-plugins /reload-skills; do
+    herdr agent prompt "$pane" "$cmd" >/dev/null || echo "fail  $pane $cmd"
+    sleep 0.5
+  done
+  echo "ok    $pane $title"
+done <<<"$agents"
