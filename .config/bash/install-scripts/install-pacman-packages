@@ -41,6 +41,7 @@ packages=(
 	hwinfo
 	jq
 	markdown2pdf
+	mise
 	neovim
 	neovim-remote
 	nerd-fonts-complete

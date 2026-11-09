@@ -1,7 +1,6 @@
 # shellcheck disable=2139
 
-pre_path "$HOME/.nodenv/bin"
-eval "$(nodenv init - bash)"
+eval "$(mise activate bash --shims)"
 
 export PNPM_HOME="$HOME/.local/share/pnpm"
 pre_path "$HOME/.local/share/pnpm"
