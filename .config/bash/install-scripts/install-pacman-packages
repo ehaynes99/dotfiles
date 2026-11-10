@@ -37,7 +37,7 @@ packages=(
 	github-cli
 	gitui
 	glibc
-	greetd-dms-greeter-git
+	greetd-dms-greeter-bin
 	gnome-keyring
 	gpicview
 	hwinfo
