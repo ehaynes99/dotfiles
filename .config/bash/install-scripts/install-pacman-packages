@@ -31,6 +31,7 @@ packages=(
 	font-manager
 	fzf
 	gcc
+	ghostty
 	git
 	github-cli
 	gitui
