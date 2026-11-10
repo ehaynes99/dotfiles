@@ -22,6 +22,7 @@ packages=(
 	docker-buildx
 	docker-compose
 	dua-cli
+	atop
 	earlyoom
 	expac
 	fd

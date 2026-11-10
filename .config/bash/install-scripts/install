@@ -6,6 +6,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 scripts=(
   create-standard-dirs
 	install-pacman-packages
+	configure-memory-resilience
   install-mise-tools
 )
 
